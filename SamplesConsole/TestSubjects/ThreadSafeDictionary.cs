@@ -6,34 +6,19 @@
 
         public void AddorUpdate(T key, V value)
         {
-            if (this.ContainsKey(key))
+
+            lock (_dictionaryLock)
             {
-                lock (_dictionaryLock)
+                if (this.ContainsKey(key))
                 {
-                    if (this.ContainsKey(key))
-                    {
-                        this[key] = value;
-                    }
-                    else
-                    {
-                        throw new Exception("AddOrUpdate failed.");
-                    }
+                    this[key] = value;
+                }
+                else
+                {
+                    this.Add(key, value);
                 }
             }
-            else
-            {
-                lock (_dictionaryLock)
-                {
-                    if (!this.ContainsKey(key))
-                    {
-                        this.Add(key, value);
-                    }
-                    else
-                    {
-                        throw new Exception("AddOrUpdate failed.");
-                    }
-                }
-            }
+
         }
     }
 }

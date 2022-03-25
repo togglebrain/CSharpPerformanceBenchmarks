@@ -7,10 +7,14 @@ namespace PerformanceBenchmarks
     [MemoryDiagnoser]
     [MaxColumn, MinColumn]
     [Config(typeof(BenchmarkConfig))]
+    //[SimpleJob(BenchmarkDotNet.Engines.RunStrategy.Throughput)]
     public class DictionaryBenchmarks
     {
-        ThreadSafeDictionary<Guid, string> tsd = new ThreadSafeDictionary<Guid, string>();
-        ConcurrentDictionary<Guid, string> concurrentDictionary = new ConcurrentDictionary<Guid, string>();
+        private static readonly ThreadSafeDictionary<int, string> tsd = new ThreadSafeDictionary<int, string>();
+        private static readonly ConcurrentDictionary<int, string> concurrentDictionary = new ConcurrentDictionary<int, string>();
+        private static readonly int addorupdateIterationCount = 1000;
+        private static readonly int addorupdateMaxParallelism = 10;
+        private static readonly Random random = new Random();
 
         [IterationCleanup]
         public void Cleanup()
@@ -23,10 +27,11 @@ namespace PerformanceBenchmarks
         public void AddOrUpdateThreadSafeDictionary()
         {
             ParallelOptions parallelOptions = new ParallelOptions();
-            parallelOptions.MaxDegreeOfParallelism = 10;
-            Parallel.For(0, 10000, i =>
+            parallelOptions.MaxDegreeOfParallelism = addorupdateMaxParallelism;
+            Parallel.For(0, addorupdateIterationCount, i =>
             {
-                tsd.AddorUpdate(Guid.NewGuid(), "test value");
+                //Get keys only from 1 to 10 to make sure there are existing key updates in the test
+                tsd.AddorUpdate(random.Next(0, 10), "test value");
             });
         }
 
@@ -34,10 +39,10 @@ namespace PerformanceBenchmarks
         public void AddOrUpdateConcurrentDictionary()
         {
             ParallelOptions parallelOptions = new ParallelOptions();
-            parallelOptions.MaxDegreeOfParallelism = 10;
-            Parallel.For(0, 10000, i =>
+            parallelOptions.MaxDegreeOfParallelism = addorupdateMaxParallelism;
+            Parallel.For(0, addorupdateIterationCount, i =>
             {
-                concurrentDictionary.AddOrUpdate(Guid.NewGuid(), "test value", (key, val) => "test value");
+                concurrentDictionary.AddOrUpdate(random.Next(0, 10), "test value", (key, val) => "test value");
             });
         }
 
