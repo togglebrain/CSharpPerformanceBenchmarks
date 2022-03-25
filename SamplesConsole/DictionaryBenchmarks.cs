@@ -43,6 +43,7 @@ namespace PerformanceBenchmarks
             parallelOptions.MaxDegreeOfParallelism = addorupdateMaxParallelism;
             Parallel.For(0, addorupdateIterationCount, i =>
             {
+                //Get keys only from 1 to 10 to make sure there are existing key updates in the test
                 concurrentDictionary.AddOrUpdate(random.Next(0, 10), "test value", (key, val) => "test value");
             });
         }
@@ -54,7 +55,6 @@ namespace PerformanceBenchmarks
             parallelOptions.MaxDegreeOfParallelism = addorupdateMaxParallelism;
             Parallel.For(0, addorupdateIterationCount, i =>
             {
-                //Get keys only from 1 to 10 to make sure there are existing key updates in the test
                 tsd.AddorUpdate(random.Next(0, addorupdateIterationCount), "test value");
             });
         }
