@@ -10,7 +10,9 @@ public class Program
     {
         //var res = BenchmarkRunner.Run<StringBenchmarks>();
         //var resDict = BenchmarkRunner.Run<DictionaryBenchmarks>();
-        var resAsyncParams = BenchmarkRunner.Run<AsyncParametersBenchmark>();
+        //var resAsyncParams = BenchmarkRunner.Run<AsyncParametersBenchmark>();
+        var resListEnumeration = BenchmarkRunner.Run<ListIndexerBenchmark>();
+
 
 
         //BenchmarkRunner.Run(new[]{
