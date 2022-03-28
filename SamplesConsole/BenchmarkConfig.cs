@@ -9,6 +9,9 @@ namespace PerformanceBenchmarks
         {
             AddDiagnoser(new MemoryDiagnoser(new MemoryDiagnoserConfig(true)));
             AddDiagnoser(ThreadingDiagnoser.Default);
+
+            this.WithOptions(ConfigOptions.JoinSummary);
+            //this.WithOrderer(new DefaultOrderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared));
         }
     }
 }

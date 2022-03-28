@@ -8,7 +8,7 @@ namespace PerformanceBenchmarks
     [MaxColumn, MinColumn]
     [Config(typeof(BenchmarkConfig))]
     //[SimpleJob(BenchmarkDotNet.Engines.RunStrategy.Throughput)]
-    public class DictionaryBenchmarks
+    public class DictionaryThreadSafeWriteBenchmarks
     {
         private static readonly ThreadSafeDictionary<int, string> tsd = new ThreadSafeDictionary<int, string>();
         private static readonly ConcurrentDictionary<int, string> concurrentDictionary = new ConcurrentDictionary<int, string>();
@@ -28,7 +28,7 @@ namespace PerformanceBenchmarks
         {
             ParallelOptions parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = addorupdateMaxParallelism;
-            Parallel.For(0, addorupdateIterationCount, i =>
+            Parallel.For(0, addorupdateIterationCount, parallelOptions, i =>
             {
                 //Get keys only from 1 to 10 to make sure there are existing key updates in the test
                 tsd.AddorUpdate(random.Next(0, 10), "test value");
@@ -41,7 +41,7 @@ namespace PerformanceBenchmarks
         {
             ParallelOptions parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = addorupdateMaxParallelism;
-            Parallel.For(0, addorupdateIterationCount, i =>
+            Parallel.For(0, addorupdateIterationCount, parallelOptions, i =>
             {
                 //Get keys only from 1 to 10 to make sure there are existing key updates in the test
                 concurrentDictionary.AddOrUpdate(random.Next(0, 10), "test value", (key, val) => "test value");
@@ -53,10 +53,10 @@ namespace PerformanceBenchmarks
         {
             ParallelOptions parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = addorupdateMaxParallelism;
-            Parallel.For(0, addorupdateIterationCount, i =>
-            {
-                tsd.AddorUpdate(random.Next(0, addorupdateIterationCount), "test value");
-            });
+            Parallel.For(0, addorupdateIterationCount, parallelOptions, i =>
+             {
+                 tsd.AddorUpdate(random.Next(0, addorupdateIterationCount), "test value");
+             });
         }
 
         [Benchmark]
@@ -64,7 +64,7 @@ namespace PerformanceBenchmarks
         {
             ParallelOptions parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = addorupdateMaxParallelism;
-            Parallel.For(0, addorupdateIterationCount, i =>
+            Parallel.For(0, addorupdateIterationCount, parallelOptions, i =>
             {
                 concurrentDictionary.AddOrUpdate(random.Next(0, addorupdateIterationCount), "test value", (key, val) => "test value");
             });
