@@ -11,7 +11,8 @@ public class Program
         //var res = BenchmarkRunner.Run<StringBenchmarks>();
         //var resDict = BenchmarkRunner.Run<DictionaryBenchmarks>();
         //var resAsyncParams = BenchmarkRunner.Run<AsyncParametersBenchmark>();
-        var resListEnumeration = BenchmarkRunner.Run<ListIndexerBenchmark>();
+        //var resListEnumeration = BenchmarkRunner.Run<ListIndexerBenchmark>();
+        var resParallelForVsTask = BenchmarkRunner.Run<ParallelForVsTaskBenchmark>();
 
 
 
