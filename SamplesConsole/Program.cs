@@ -16,6 +16,7 @@ public class Program
         //var resAsyncParams = BenchmarkRunner.Run<AsyncParametersBenchmark>();
         //var resListEnumeration = BenchmarkRunner.Run<ListIndexerBenchmark>();
         //var resParallelForVsTask = BenchmarkRunner.Run<ParallelForVsTaskBenchmark>();
+        //var resParallelForVsTask = BenchmarkRunner.Run<LazyLoadingBenchmark>();
 
 
 
@@ -25,7 +26,10 @@ public class Program
         BenchmarkRunner.Run(new[]{
             BenchmarkConverter.TypeToBenchmarks( typeof(StringBenchmarks)),
             BenchmarkConverter.TypeToBenchmarks( typeof(DictionaryThreadSafeWriteBenchmarks)),
-            BenchmarkConverter.TypeToBenchmarks( typeof(AsyncParametersBenchmark))
+            BenchmarkConverter.TypeToBenchmarks( typeof(AsyncParametersBenchmark)),
+            BenchmarkConverter.TypeToBenchmarks( typeof(ListIndexerBenchmark)),
+            BenchmarkConverter.TypeToBenchmarks( typeof(ParallelForVsTaskBenchmark)),
+            BenchmarkConverter.TypeToBenchmarks( typeof(LazyLoadingBenchmark))
             });
     }
 
