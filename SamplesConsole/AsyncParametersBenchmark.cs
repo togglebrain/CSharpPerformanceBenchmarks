@@ -14,7 +14,8 @@ namespace PerformanceBenchmarks
         [Benchmark(Baseline = true)]
         public async Task AsyncMethodParamsPassedInline()
         {
-            asyncParamsHelper.PerformCalculation(await asyncParamsHelper.GetAPICount(), await asyncParamsHelper.GetDBCount());
+            asyncParamsHelper.PerformCalculation(await asyncParamsHelper.GetAPICount(),
+                await asyncParamsHelper.GetDBCount());
         }
 
         [Benchmark]

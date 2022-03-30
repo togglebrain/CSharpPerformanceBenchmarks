@@ -50,7 +50,7 @@ namespace PerformanceBenchmarks
         }
 
         [Benchmark]
-        public void EnumerateEnumerable()
+        public void EnumerateImmutable()
         {
             string val;
             for (int i = 0; i < itemCount; i++)
@@ -61,7 +61,7 @@ namespace PerformanceBenchmarks
 
 
         [Benchmark]
-        public void EnumerateEnumerableForEach()
+        public void EnumerateImmutableForEach()
         {
             string val;
             foreach (var item in testIEnumerable)
