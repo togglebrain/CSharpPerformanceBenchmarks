@@ -8,7 +8,7 @@ using PerformanceBenchmarks;
 [Config(typeof(BenchmarkConfig))]
 public class LazyLoadingBenchmark
 {
-    public static readonly int itemCount = 1000;
+    public static readonly int itemCount = 100;
     Random random = new Random();
 
 
@@ -54,5 +54,30 @@ public class LazyLoadingBenchmark
         {
             lazyList.Value[itemCount - 1]++;
         }
+    }
+
+
+
+    [Benchmark]
+    public void UseListUnconditionally()
+    {
+        IList<int> regularList;
+
+        regularList = PopulateList();
+
+        regularList[itemCount - 1]++;
+    }
+
+    [Benchmark]
+    public void UseLazyListUnconditionally()
+    {
+        Lazy<IList<int>> lazyList;
+
+        lazyList = new Lazy<IList<int>>(() =>
+        {
+            return PopulateList();
+        });
+
+        lazyList.Value[itemCount - 1]++;
     }
 }
